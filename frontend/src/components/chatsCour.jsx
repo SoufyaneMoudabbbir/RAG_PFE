@@ -278,12 +278,7 @@ function ChatsCour({ fileData }) {
             placeholder={"Saisissez votre question ici..."}
             value={question}
             handleInput={(e) => setQuestion(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleSubmit();
-              }
-            }}
+            
           />
           <div className=" right-2 flex items-center gap-2 bottom-2">
          {/*    <button

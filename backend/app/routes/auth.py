@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from sqlalchemy.orm import Session
 from datetime import timedelta
 from jose import jwt
-
+import os
 from app.db.database import get_db
 
 from app.services.email_service import send_verification_email

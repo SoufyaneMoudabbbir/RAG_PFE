@@ -156,13 +156,9 @@ async def process_and_store_course(title, file_path, filiere_name, db: Session):
     
 filieres_and_courses = {
         "Data Science": [
-            {"title": "Introduction to Data Science", "file_name": "Docker network TP.pdf"},
-            {"title": "Advanced Data Analytics", "file_name": "Docker network TP.pdf"},
-        ],
-        "Machine Learning": [
-            {"title": "Supervised Learning", "file_name": "Docker network TP.pdf"},
-            {"title": "Unsupervised Learning", "file_name": "Docker network TP.pdf"},
+            {"title": "Introduction to Data Science", "file_name": "Data Mining.pdf"}
         ]
+  
     }
 
     # Static folder path
@@ -186,4 +182,4 @@ async def startup_event():
     try:
         await process_all_courses(db)  # Pass the session to the function
     finally:
-        db.close()  # Ensure the session is closed after the operation
+        pass

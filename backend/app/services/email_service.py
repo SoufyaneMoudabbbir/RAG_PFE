@@ -3,6 +3,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from pydantic import EmailStr
 from fastapi import HTTPException
+import os 
 
 def send_email(email: EmailStr, subject: str, message: str):
     
@@ -44,7 +45,8 @@ def send_verification_email(email: EmailStr, verification_token: str):
     """
     # Customize the email content as per your requirements
     subject = "Verify Your Email"
-    verification_link = f"{os.getenv("BACKEND_URL")}/api/auth/verify-email/{verification_token}"
+    verification_link = f'{os.getenv("BACKEND_URL")}/api/auth/verify-email/{verification_token}'
+
     message = f"""
     <html>
     <body>

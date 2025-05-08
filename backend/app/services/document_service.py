@@ -128,8 +128,7 @@ async def process_document_qdrant(documents, db_path):
 
 
 
-
-def retrieved_docs(question, embedding_url, similarity_threshold=0.2): 
+def retrieved_docs(question, embedding_url, similarity_threshold=0.3): 
     qdrant_store = QdrantVectorStore(
         client=qdrant_client,
         collection_name=embedding_url,
@@ -153,7 +152,7 @@ def retrieved_docs(question, embedding_url, similarity_threshold=0.2):
 
         # Step 3: Check top score (smaller distance = better match)
         if results and results[0].score < similarity_threshold:
-            print("Similarity too low, fetching all documents, score:", results[0].score)
+            print("Similarity too low, fetching odd-numbered pages, score:", results[0].score)
             
             retrieved_docs = []
             scroll_offset = None
@@ -173,6 +172,7 @@ def retrieved_docs(question, embedding_url, similarity_threshold=0.2):
                     )
                     for doc in scroll_result
                     if hasattr(doc, "payload") and doc.payload and "text" in doc.payload
+                    and (str(doc.payload.get("page", "0")).isdigit() and int(doc.payload.get("page", 0)) % 2 == 1)  # Only odd pages
                 ]
                 retrieved_docs.extend(batch)
 
@@ -202,6 +202,6 @@ def retrieved_docs(question, embedding_url, similarity_threshold=0.2):
         key=lambda doc: int(doc.metadata.get("page", 0)) if str(doc.metadata.get("page", "0")).isdigit() else 0
     )
     for doc in retrieved_docs:
-            page_number = doc.metadata.get("page", "Unknown")  # Replace "Unknown" with a default if no page is found
+            page_number = doc.metadata.get("page", "Unknown")
             print(f"Document on page: {page_number}")
     return retrieved_docs

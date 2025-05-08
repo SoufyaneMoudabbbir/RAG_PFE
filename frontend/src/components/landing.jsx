@@ -60,7 +60,7 @@ const Landing = () => {
   
     fetchData();
     console.log(localStorage.getItem("register") === "true" &&
-    (!user && !user.exam_result))
+    (!user && !user?.exam_result))
     
   }, [token, user, handleUpload]);
 
@@ -134,7 +134,7 @@ const Landing = () => {
         body={<QuizComponent />}
         condition={
           localStorage.getItem("register") === "true" &&
-         (!user && !user.exam_result)
+         (!user && !user?.exam_result)
         }      />
         <h1 className="font-bold text-dark text-[2.6rem] leading-[2.8rem] tracking-tighter mb-5 text-center">
           <span className="text-primary text-[2.5rem]">

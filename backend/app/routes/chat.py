@@ -35,6 +35,7 @@ async def chat_with_file( question: str = Body(...), document :int = Body(...), 
     
     question_time = datetime.now()
     file = db.query(UploadedFile).filter(UploadedFile.owner_id == user_id, UploadedFile.id == file_id).first()
+    user = db.query(User).filter(User.id == user_id).first()
     if file is None:
         raise HTTPException(status_code=404, detail="File not found")
     
@@ -49,7 +50,7 @@ async def chat_with_file( question: str = Body(...), document :int = Body(...), 
     personalInfo.append({"role": "user", "content": f"Je suis {user.first_name} {user.last_name}"})
     try:
         context = retrieved_docs(question , file.embedding_path)
-        response  = await generate_response(file.title , question, context,  memory=message_history,personalInfo=personalInfo,language=language )
+        response  = await generate_response(file.file_name , question, context,  memory=message_history,personalInfo=personalInfo,language=language )
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate response: {str(e)}")
